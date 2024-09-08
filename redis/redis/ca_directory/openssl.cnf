@@ -1,0 +1,54 @@
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = ca_directory
+certs             = ca_directory/issued_certificates
+crl_dir           = ca_directory/revocation_list
+database          = ca_directory/index.txt
+new_certs_dir     = ca_directory/newcerts
+certificate       = ca_directory/ca_cert.pem
+serial            = ca_directory/serial
+crlnumber         = ca_directory/crlnumber
+crl               = ca_directory/revocation_list/crl.pem
+private_key       = ca_directory/private/ca_key.pem
+RANDFILE          = ca_directory/private/.rand
+
+default_days      = 1825
+default_crl_days  = 30
+default_md        = sha512
+preserve          = no
+policy            = policy_any
+
+[ policy_any ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = supplied
+emailAddress            = optional
+
+[ req ]
+default_bits        = 4096
+default_md          = sha512
+default_keyfile     = ca_directory/private/ca_key.pem
+distinguished_name  = ca_distinguished_name
+x509_extensions     = v3_ca
+
+[ ca_distinguished_name ]
+countryName             = Country Name (2 letter code)
+stateOrProvinceName     = State or Province Name (full name)
+localityName            = Locality Name (eg, city)
+organizationName        = Organization Name (eg, company)
+organizationalUnitName  = Organizational Unit Name (eg, section)
+commonName              = Common Name (e.g. server FQDN or YOUR name)
+emailAddress            = Email Address
+
+[ v3_ca ]
+# Extensions for a typical CA
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical,CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+
